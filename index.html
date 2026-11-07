@@ -368,9 +368,12 @@
 
         // --- Modal Popup ---
         function openModal() {
-            document.getElementById('modal').style.display = 'flex';
-        }
+    // 1. Trigger Pop-under / Affiliate Offer in a new tab
+    window.open("https://uplcm.com/4/12212104", "_blank");
 
+    // 2. Display the modal status message to the user on your page
+    document.getElementById('modal').style.display = 'flex';
+        }
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
         }
