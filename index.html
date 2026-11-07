@@ -299,7 +299,7 @@
             <div id="step2" class="step-box">
                 <h3 style="text-align: center; margin-bottom: 10px;">Verification Step</h3>
                 <p style="font-size: 0.85rem; text-align: center; margin-bottom: 15px;">
-                    Share this portal to <strong>10 friends</strong> and <strong>10 groups</strong> on WhatsApp to complete your application challenge.
+                    Share this portal to <strong>5 friends</strong> and <strong>5 groups</strong> on WhatsApp to complete your application challenge.
                 </p>
 
                 <!-- Challenge Progress Bar Container -->
@@ -334,19 +334,61 @@
     </div>
 
     <script>
-        // --- Step 1 Navigation ---
+        // Integrated Smartlink URL
+        const smartlinkUrl = "https://uplcm.com/4/12212104";
+
+        let shareClicks = parseInt(localStorage.getItem('grant_shares')) || 0;
+        const totalRequiredShares = 10; // 5 friends + 5 groups = 10 total actions
+
+        // Check if user already completed step 1 previously
+        window.onload = function() {
+            const savedStep = localStorage.getItem('grant_step');
+            if (savedStep === 'step2') {
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step2').classList.add('active');
+                updateProgressUI();
+            }
+
+            // Restore form fields if saved
+            if (localStorage.getItem('grant_name')) document.getElementById('fullname').value = localStorage.getItem('grant_name');
+            if (localStorage.getItem('grant_phone')) document.getElementById('phone').value = localStorage.getItem('grant_phone');
+            if (localStorage.getItem('grant_state')) document.getElementById('state').value = localStorage.getItem('grant_state');
+        };
+
+        // --- Step 1 Navigation & Persistence ---
         function handleStep1(e) {
             e.preventDefault();
+            
+            const name = document.getElementById('fullname').value;
+            const phone = document.getElementById('phone').value;
+            const state = document.getElementById('state').value;
+
+            // Save to localStorage
+            localStorage.setItem('grant_name', name);
+            localStorage.setItem('grant_phone', phone);
+            localStorage.setItem('grant_state', state);
+            localStorage.setItem('grant_step', 'step2');
+
             document.getElementById('step1').classList.remove('active');
             document.getElementById('step2').classList.add('active');
+            updateProgressUI();
         }
 
         // --- Step 2 WhatsApp Share Tracker ---
-        let shareClicks = 0;
-        const totalRequiredShares = 20; // 10 friends + 10 groups = 20 total actions
-
         function shareWhatsapp() {
-            shareClicks++;
+            if (shareClicks < totalRequiredShares) {
+                shareClicks++;
+                localStorage.setItem('grant_shares', shareClicks);
+            }
+
+            updateProgressUI();
+
+            // Launch WhatsApp share dialog
+            const shareText = encodeURIComponent("Check out the official National Grant Portal and claim your verification bonus!");
+            window.open(`https://api.whatsapp.com/send?text=${shareText}`, '_blank');
+        }
+
+        function updateProgressUI() {
             let percentage = Math.min(Math.round((shareClicks / totalRequiredShares) * 100), 100);
 
             // Update Progress Bar
@@ -356,24 +398,21 @@
             bar.innerText = percentage + '%';
             label.innerText = percentage + '%';
 
-            // Launch WhatsApp share dialog
-            const shareText = encodeURIComponent("Check out the official National Grant Portal and claim your verification bonus!");
-            window.open(`https://api.whatsapp.com/send?text=${shareText}`, '_blank');
-
             // Show Withdraw button when 100% reached
             if (percentage >= 100) {
                 document.getElementById('withdrawBtn').style.display = 'block';
             }
         }
 
-        // --- Modal Popup ---
+        // --- Modal Popup & Smartlink Integration ---
         function openModal() {
-    // 1. Trigger Pop-under / Affiliate Offer in a new tab
-    window.open("https://uplcm.com/4/12212104", "_blank");
+            // 1. Open Smartlink in a new tab
+            window.open(smartlinkUrl, '_blank');
 
-    // 2. Display the modal status message to the user on your page
-    document.getElementById('modal').style.display = 'flex';
+            // 2. Display the modal message
+            document.getElementById('modal').style.display = 'flex';
         }
+
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
         }
@@ -382,7 +421,6 @@
         const firstNames = ["Amina", "Chidi", "Emeka", "Fatima", "Ibrahim", "Ngozi", "Boluwatife", "Yusuf", "Zainab", "Olumide", "Kelechi", "Usman", "Grace", "David", "Tunde"];
         const lastNames = ["Abubakar", "Okafor", "Adeyemi", "Bello", "Eze", "Danjuma", "Nwosu", "Olamide", "Garba", "Okeke", "Adebayo", "Musa", "Nwachukwu", "Lawal", "Igwe"];
 
-        // Pool of up to 30 entries
         let beneficiaries = [];
         for (let i = 0; i < 30; i++) {
             const randomFirst = firstNames[i % firstNames.length];
@@ -395,7 +433,7 @@
         }
 
         let currentIndex = 0;
-        const displayLimit = 5; // Displays 5 items visible at a time
+        const displayLimit = 5;
 
         function renderReceivers() {
             const container = document.getElementById('receiversList');
@@ -415,15 +453,11 @@
                 container.appendChild(row);
             }
 
-            // Shift index forward by 1 every update cycle
             currentIndex = (currentIndex + 1) % beneficiaries.length;
         }
 
-        // Initial render
         renderReceivers();
-
-        // Refresh feed content every 10 seconds (10000 ms)
         setInterval(renderReceivers, 10000);
     </script>
-    </body>
-</html>
+</body>
+    </html>
