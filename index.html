@@ -3,236 +3,424 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cenk Torun: The Cinematic Fan Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
-    
+    <title>Grant Application & Beneficiary Portal</title>
     <style>
         :root {
-            --gold: #b8860b;
-            --deep-red: #8b0000;
-            --bg-black: #0a0a0a;
-            --glass: rgba(255, 255, 255, 0.1);
+            --primary-color: #008000;
+            --primary-hover: #006400;
+            --whatsapp-color: #25D366;
+            --whatsapp-hover: #1EBE5D;
+            --bg-color: #f4f6f8;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            background-color: var(--bg-black);
-            color: #ffffff;
-            font-family: 'Poppins', sans-serif;
-            margin: 0; padding: 0;
-            overflow-x: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        h1, h2 { font-family: 'Playfair Display', serif; }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
 
-        /* Navigation */
-        nav {
-            background: rgba(0,0,0,0.9);
-            padding: 20px 5%;
+        /* Top Banner Section */
+        .top-banner {
+            width: 100%;
+            background-color: #ffffff;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .top-banner img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .header h1 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        /* Step Section Styling */
+        .content-body {
+            padding: 20px;
+        }
+
+        .step-box {
+            display: none;
+        }
+
+        .step-box.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-whatsapp {
+            background-color: var(--whatsapp-color);
+            margin-bottom: 10px;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: var(--whatsapp-hover);
+        }
+
+        .btn-withdraw {
+            background-color: #d9534f;
+            display: none;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        .btn-withdraw:hover {
+            background-color: #c9302c;
+        }
+
+        /* Challenge / Progress Bar */
+        .progress-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .progress-label {
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 22px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            background-color: var(--whatsapp-color);
+            text-align: center;
+            line-height: 22px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: width 0.4s ease;
+        }
+
+        /* Receivers Ticker / Live Feed */
+        .feed-container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .feed-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .feed-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--gold);
-            position: sticky; top: 0; z-index: 1000;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-color);
+            font-size: 0.85rem;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
-        .logo { font-size: 1.5rem; font-weight: bold; letter-spacing: 3px; }
-        .logo span { color: var(--gold); }
-
-        .lang-btns button {
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: white;
-            padding: 5px 10px;
-            cursor: pointer;
-            margin-left: 5px;
-            transition: 0.3s;
+        .feed-item:last-child {
+            border-bottom: none;
         }
 
-        .lang-btns button:hover { background: var(--gold); color: black; }
+        .receiver-name {
+            font-weight: bold;
+        }
 
-        /* Hero */
-        .hero {
-            height: 70vh;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.4), var(--bg-black)), 
-                        url('https://via.placeholder.com/1920x1080/111/gold?text=Cenk+Torun+Hero'); 
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
+        .amount-tag {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modal Popup */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
             justify-content: center;
             align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
             text-align: center;
-            padding: 0 20px;
+            max-width: 350px;
+            width: 90%;
         }
 
-        .hero h1 { font-size: 3.5rem; margin: 0; }
-
-        /* Ad Slots */
-        .ad-banner {
-            width: 100%; max-width: 728px; height: 90px;
-            background: var(--glass); margin: 20px auto;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px dashed #444;
+        .modal-card h2 {
+            color: #d9534f;
+            margin-bottom: 10px;
         }
 
-        /* Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px; padding: 40px 5%;
+        .modal-card p {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            color: #555;
         }
 
-        .card {
-            background: var(--glass); padding: 25px;
-            border-left: 4px solid var(--gold);
-            transition: 0.3s;
-        }
-
-        .btn-action {
-            display: inline-block;
-            background: var(--deep-red);
-            color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            margin-top: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-        }
-
-        /* VIDEO VAULT MODAL */
-        .video-vault {
-            display: none; position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 2000;
-            justify-content: center; align-items: center;
-        }
-
-        .vault-content {
-            width: 90%; max-width: 400px;
-            border: 2px solid var(--gold);
-            position: relative;
-            background: #000;
-        }
-
-        .close-vault {
-            position: absolute; top: -45px; right: 0;
-            color: var(--gold); font-size: 35px; cursor: pointer;
+        .modal-card button {
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
-<nav>
-    <div class="logo">CENK <span>ULTIMATE</span></div>
-    <div class="lang-btns">
-        <button onclick="changeLang('en')">EN</button>
-        <button onclick="changeLang('ro')">RO</button>
-        <button onclick="changeLang('bg')">BG</button>
-    </div>
-</nav>
+    <div class="container">
+        <!-- 1. Top Image Header -->
+        <div class="top-banner">
+            <img src="https://via.placeholder.com/600x200?text=Official+Grant+Portal+Header" alt="Grant Header Banner" id="headerImage">
+        </div>
 
-<section class="hero">
-    <h1 id="hero-title">The Legend Returns</h1>
-    <p id="hero-sub">Exclusive insights into the life of Cenk Torun.</p>
-    <!-- Adsterra Smartlink goes here -->
-    <a href="https://blessingrecordpleasant.com/b4ep65dt14?key=0dcb056279c80bbed9e40391a0765eac" class="btn-action" id="hero-btn">LATEST NEWS</a>
-</section>
+        <div class="header">
+            <h1>NATIONAL BENEFICIARY PORTAL</h1>
+            <p>Verification & Distribution System</p>
+        </div>
 
-<!-- Adsterra Banner to Slot -->
-<div class="ad-banner">
-    <script async="async" data-cfasync="false" src="https://blessingrecordpleasant.com/5ed03cd0176a00d4d55c21623fb7707d/invoke.js"></script>
-<div id="container-5ed03cd0176a00d4d55c21623fb7707d"></div>
-    
-    <p style="color:#555; font-size: 10px;">PROMOTED CONTENT</p>
-</div>
+        <div class="content-body">
+            <!-- STEP 1: Personal Details Form -->
+            <div id="step1" class="step-box active">
+                <form id="infoForm" onsubmit="handleStep1(event)">
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" placeholder="Enter full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="Enter phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State / Region</label>
+                        <input type="text" id="state" placeholder="Enter your location" required>
+                    </div>
+                    <button type="submit" class="btn">Proceed to Verification</button>
+                </form>
+            </div>
 
-<section class="content-grid">
-    <div class="card">
-        <h2 id="card1-title">The 'OrHir' Legacy</h2>
-        <p id="card1-text">Deep dive into the chemistry between Orhun and Hira.</p>
-        <button class="btn-action" onclick="alert('Redirecting to full article...')">READ MORE</button>
-    </div>
-    <div class="card">
-        <h2 id="card1-title">The 'OrHir' Legacy</h2>
-        <p id="card1-text">Biography of the Legend<strong>Cenk Torun </strong></p>
-        <button class="btn-action" onclick="window.location.href='bio.html';">Read Bio</button>
-    </div>
-<div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5488858626594897"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-5488858626594897"
-     data-ad-slot="9041822047"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</div>
-    <div class="card">
-        <h2 id="card2-title">Style Transitions</h2>
-        <p id="card2-text">Watch exclusive visual transitions of Cenk's most iconic looks.</p>
-        <button class="btn-action" id="watch-btn" onclick="openVault()">WATCH NOW</button>
-    </div>
-</section>
+            <!-- STEP 2: WhatsApp Share Challenge -->
+            <div id="step2" class="step-box">
+                <h3 style="text-align: center; margin-bottom: 10px;">Verification Step</h3>
+                <p style="font-size: 0.85rem; text-align: center; margin-bottom: 15px;">
+                    Share this portal to <strong>10 friends</strong> and <strong>10 groups</strong> on WhatsApp to complete your application challenge.
+                </p>
 
-<!-- The Video Pop-up -->
-<div id="videoVault" class="video-vault">
-    <div class="vault-content">
-        <span class="close-vault" onclick="closeVault()">&times;</span>
-        <video id="cenkVideo" width="100%" controls loop>
-            <source src="cenk.mp4" type="video/mp4">
-        </video>
-    </div>
-</div>
+                <!-- Challenge Progress Bar Container -->
+                <div class="progress-container">
+                    <div class="progress-label">Challenge Progress: <span id="percentText">0%</span></div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progressBar">0%</div>
+                    </div>
+                </div>
 
-<script>
-    const content = {
-        en: {
-            title: "The Legend Returns", sub: "Exclusive insights into the life of Cenk Torun.",
-            btn: "LATEST NEWS", c1t: "The 'OrHir' Legacy", c1p: "Deep dive into the chemistry between Orhun and Hira.",
-            c2t: "Style Transitions", c2p: "Watch exclusive visual transitions of Cenk's most iconic looks.",
-            watch: "WATCH NOW"
-        },
-        ro: {
-            title: "Legenda se Întoarce", sub: "Informații exclusive despre viața lui Cenk Torun.",
-            btn: "ULTIMELE ȘTIRI", c1t: "Moștenirea 'OrHir'", c1p: "Analiză detaliată a chimiei dintre Orhun și Hira.",
-            c2t: "Tranziții de Stil", c2p: "Urmărește tranziții vizuale exclusive cu look-urile lui Cenk.",
-            watch: "VEZI ACUM"
-        },
-        bg: {
-            title: "Легендата се завръща", sub: "Ексклузивен поглед върху живота на Дженк Торун.",
-            btn: "ПОСЛЕДНИ НОВИНИ", c1t: "Наследството 'OrHir'", c1p: "Дълбоко гмуркане в химията между Орхун и Хира.",
-            c2t: "Стилни преходи", c2p: "Гледайте ексклузивни визуални преходи на Дженк.",
-            watch: "ГЛЕДАЙ СЕГА"
+                <button class="btn btn-whatsapp" onclick="shareWhatsapp()">Share on WhatsApp</button>
+                
+                <!-- Withdraw Button (Hidden until 100% completion) -->
+                <button class="btn btn-withdraw" id="withdrawBtn" onclick="openModal()">Withdraw Grant</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Receivers List (Updates every 10 seconds, up to 30 total names) -->
+    <div class="feed-container">
+        <div class="feed-title">Recent Approved Beneficiaries</div>
+        <div id="receiversList"></div>
+    </div>
+
+    <!-- Notification Modal for Withdrawal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-card">
+            <h2>Status Pending</h2>
+            <p>Wait for Next Batch</p>
+            <button class="btn" onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Step 1 Navigation ---
+        function handleStep1(e) {
+            e.preventDefault();
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
         }
-    };
 
-    function changeLang(lang) {
-        document.getElementById('hero-title').innerText = content[lang].title;
-        document.getElementById('hero-sub').innerText = content[lang].sub;
-        document.getElementById('hero-btn').innerText = content[lang].btn;
-        document.getElementById('card1-title').innerText = content[lang].c1t;
-        document.getElementById('card1-text').innerText = content[lang].c1p;
-        document.getElementById('card2-title').innerText = content[lang].c2t;
-        document.getElementById('card2-text').innerText = content[lang].c2p;
-        document.getElementById('watch-btn').innerText = content[lang].watch;
-    }
+        // --- Step 2 WhatsApp Share Tracker ---
+        let shareClicks = 0;
+        const totalRequiredShares = 20; // 10 friends + 10 groups = 20 total actions
 
-    function openVault() {
-        document.getElementById('videoVault').style.display = 'flex';
-        document.getElementById('cenkVideo').play();
-    }
+        function shareWhatsapp() {
+            shareClicks++;
+            let percentage = Math.min(Math.round((shareClicks / totalRequiredShares) * 100), 100);
 
-    function closeVault() {
-        document.getElementById('videoVault').style.display = 'none';
-        document.getElementById('cenkVideo').pause();
-    }
-</script>
+            // Update Progress Bar
+            const bar = document.getElementById('progressBar');
+            const label = document.getElementById('percentText');
+            bar.style.width = percentage + '%';
+            bar.innerText = percentage + '%';
+            label.innerText = percentage + '%';
 
-    <script src="https://blessingrecordpleasant.com/6d/1e/be/6d1ebe42fda6885c85819e5779b078e5.js"></script>
-    
-</body>
-            </html>
+            // Launch WhatsApp share dialog
+            const shareText = encodeURIComponent("Check out the official National Grant Portal and claim your verification bonus!");
+            window.open(`https://api.whatsapp.com/send?text=${shareText}`, '_blank');
+
+            // Show Withdraw button when 100% reached
+            if (percentage >= 100) {
+                document.getElementById('withdrawBtn').style.display = 'block';
+            }
+        }
+
+        // --- Modal Popup ---
+        function openModal() {
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // --- 30 Beneficiary Names Data Pool ---
+        const firstNames = ["Amina", "Chidi", "Emeka", "Fatima", "Ibrahim", "Ngozi", "Boluwatife", "Yusuf", "Zainab", "Olumide", "Kelechi", "Usman", "Grace", "David", "Tunde"];
+        const lastNames = ["Abubakar", "Okafor", "Adeyemi", "Bello", "Eze", "Danjuma", "Nwosu", "Olamide", "Garba", "Okeke", "Adebayo", "Musa", "Nwachukwu", "Lawal", "Igwe"];
+
+        // Pool of up to 30 entries
+        let beneficiaries = [];
+        for (let i = 0; i < 30; i++) {
+            const randomFirst = firstNames[i % firstNames.length];
+            const randomLast = lastNames[(i * 3) % lastNames.length];
+            beneficiaries.push({
+                name: `${randomFirst} ${randomLast.charAt(0)}.`,
+                amount: `₦${(Math.floor(Math.random() * 6) + 5) * 10},000`,
+                time: `${Math.floor(Math.random() * 59) + 1} secs ago`
+            });
+        }
+
+        let currentIndex = 0;
+        const displayLimit = 5; // Displays 5 items visible at a time
+
+        function renderReceivers() {
+            const container = document.getElementById('receiversList');
+            container.innerHTML = "";
+
+            for (let i = 0; i < displayLimit; i++) {
+                const itemIndex = (currentIndex + i) % beneficiaries.length;
+                const item = beneficiaries[itemIndex];
+
+                const row = document.createElement('div');
+                row.className = 'feed-item';
+                row.innerHTML = `
+                    <span class="receiver-name">${item.name}</span>
+                    <span>Received <span class="amount-tag">${item.amount}</span></span>
+                    <span style="color:#777; font-size:0.75rem;">${item.time}</span>
+                `;
+                container.appendChild(row);
+            }
+
+            // Shift index forward by 1 every update cycle
+            currentIndex = (currentIndex + 1) % beneficiaries.length;
+        }
+
+        // Initial render
+        renderReceivers();
+
+        // Refresh feed content every 10 seconds (10000 ms)
+        setInterval(renderReceivers, 10000);
+    </script>
+    </body>
+</html>
